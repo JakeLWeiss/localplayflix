@@ -1,0 +1,15 @@
+E:\gitprojects\mov\mov\bin\Debug\mov.exe.config
+E:\gitprojects\mov\mov\bin\Debug\mov.exe
+E:\gitprojects\mov\mov\bin\Debug\mov.pdb
+E:\gitprojects\mov\mov\obj\Debug\mov.csprojResolveAssemblyReference.cache
+E:\gitprojects\mov\mov\obj\Debug\MainWindow.g.cs
+E:\gitprojects\mov\mov\obj\Debug\App.g.cs
+E:\gitprojects\mov\mov\obj\Debug\mov_MarkupCompile.cache
+E:\gitprojects\mov\mov\obj\Debug\mov_MarkupCompile.lref
+E:\gitprojects\mov\mov\obj\Debug\MainWindow.baml
+E:\gitprojects\mov\mov\obj\Debug\mov.g.resources
+E:\gitprojects\mov\mov\obj\Debug\mov.Properties.Resources.resources
+E:\gitprojects\mov\mov\obj\Debug\mov.csproj.GenerateResource.Cache
+E:\gitprojects\mov\mov\obj\Debug\mov.csproj.CoreCompileInputs.cache
+E:\gitprojects\mov\mov\obj\Debug\mov.exe
+E:\gitprojects\mov\mov\obj\Debug\mov.pdb
