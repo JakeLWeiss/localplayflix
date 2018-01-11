@@ -1,0 +1,8 @@
+2 implementations: samba and apache
+separate users, password protect options
+samba option will have to use json to track timestamps and stuff
+apache version will have a database with all of that information
+timestamp information will be updated every 10 seconds or something
+tv shows will track time location, offer ability to skip intro
+Encrypt files based on login password
+apache preferred
