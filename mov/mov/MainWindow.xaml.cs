@@ -23,19 +23,17 @@ namespace mov
     {
 
         bool isDragging = false;
-        bool isPlaying = false;
+        bool isPlaying = true;
+        double currentPosition;
         DispatcherTimer timer;
         public MainWindow()
         {
             InitializeComponent();
-
-            timer = new DispatcherTimer();
-            timer.Interval = TimeSpan.FromMilliseconds(2000);
-            timer.Tick += new EventHandler(timer_Tick);
-            timer.Start();
+            mePlayer.Play();
+            
         }
 
-        
+      
 
         private void btnPlay_Click(object sender, RoutedEventArgs e)
         {
@@ -53,24 +51,15 @@ namespace mov
             }
         }
 
-        
-
-     
-        void timer_Tick(object sender, EventArgs e)
+        private void btnRW_Click(object sender, RoutedEventArgs e)
         {
-            if (!isDragging) seekBar.Value = mePlayer.Position.TotalSeconds;
+            mePlayer.Position -= TimeSpan.FromSeconds(10);
         }
 
-        private void seekBar_DragStarted(object sender, System.Windows.Controls.Primitives.DragStartedEventArgs e)
+        private void btnFF_Click(object sender, RoutedEventArgs e)
         {
-            isDragging = true;
-
+            mePlayer.Position += TimeSpan.FromSeconds(10);
         }
 
-        private void seekBar_DragCompleted(object sender, System.Windows.Controls.Primitives.DragCompletedEventArgs e)
-        {
-            isDragging = false;
-            mePlayer.Position = TimeSpan.FromSeconds(seekBar.Value);
-        }
     }
 }

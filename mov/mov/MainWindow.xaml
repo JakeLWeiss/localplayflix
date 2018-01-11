@@ -15,16 +15,15 @@
             <RowDefinition Height="*" />
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
-        <MediaElement Source="http://140.254.10.24/test.mp4" LoadedBehavior="Manual" Name="mePlayer" Margin="8,10,-8,0.2" Grid.RowSpan="2" Grid.ColumnSpan="2" />
+        <MediaElement Source="C:/users/topca/test.mp4" LoadedBehavior="Manual" Name="mePlayer" Margin="0,0,-8,0.2" Grid.RowSpan="2" Grid.ColumnSpan="2" />
         <StackPanel Grid.Row="1" Grid.ColumnSpan="2" >
-            
             <WrapPanel HorizontalAlignment="Center">
-                <StackPanel x:Name="SPSeekBar" HorizontalAlignment="Stretch" Width="221">
-                    <Slider x:Name="seekBar" Thumb.DragStarted="seekBar_DragStarted"
-                                    Thumb.DragCompleted="seekBar_DragCompleted" />
-                </StackPanel>
-                <Button Name="btnPlay" Click="btnPlay_Click">></Button>
-                
+
+                <Button x:Name="btnRW" Click="btnRW_Click" Content="-10"/>
+                <Button x:Name="btnPlay" Click="btnPlay_Click">Play</Button>
+                <Button x:Name="btnFF" Click="btnFF_Click" Content="+10"/>
+               
+
             </WrapPanel>
         </StackPanel>
     </Grid>
