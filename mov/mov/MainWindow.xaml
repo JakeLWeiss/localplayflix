@@ -5,7 +5,9 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:mov"
         mc:Ignorable="d"
-        Title="MainWindow" Height="328.376" Width="510.79" Background="Black">
+        KeyDown="keys"
+        WindowState="Normal"
+        Title="MainWindow" Height="328.376" Width="510.79" Background="Black" >
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="81*"/>
@@ -15,16 +17,18 @@
             <RowDefinition Height="*" />
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
-        <MediaElement Source="C:/users/topca/test.mp4" LoadedBehavior="Manual" Name="mePlayer" Margin="0,0,-8,0.2" Grid.RowSpan="2" Grid.ColumnSpan="2" />
-        <StackPanel Grid.Row="1" Grid.ColumnSpan="2" >
-            <WrapPanel HorizontalAlignment="Center">
+        <MediaElement Source="C:/users/topca/test.mp4" LoadedBehavior="Manual" Name="mePlayer" Margin="0,0,-8,0.2" Grid.RowSpan="2" Grid.ColumnSpan="2"  />
+        <StackPanel x:Name ="cont" Grid.Row="2" Grid.ColumnSpan="2" MouseLeave="hideCont" MouseMove="showCont">
+            
+            <WrapPanel x:Name="contP" HorizontalAlignment="Stretch">                
+                    <Button x:Name="btnRW" Click="btnRW_Click" Content="-10"/>
+                    <Button x:Name="btnPlay" Click="btnPlay_Click">Play</Button>
+                    <Button x:Name="btnFF" Click="btnFF_Click" Content="+10"/>
+                   </WrapPanel>
+            <Slider x:Name="scrub" Thumb.DragStarted="scrub_DragStarted"  Thumb.DragCompleted="scrub_DragCompleted" HorizontalAlignment="Stretch"/>
 
-                <Button x:Name="btnRW" Click="btnRW_Click" Content="-10"/>
-                <Button x:Name="btnPlay" Click="btnPlay_Click">Play</Button>
-                <Button x:Name="btnFF" Click="btnFF_Click" Content="+10"/>
-               
-
-            </WrapPanel>
         </StackPanel>
+        
+       
     </Grid>
 </Window>

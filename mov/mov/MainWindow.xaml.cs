@@ -1,18 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 using System.Windows.Threading;
+
 
 namespace mov
 {
@@ -24,16 +15,43 @@ namespace mov
 
         bool isDragging = false;
         bool isPlaying = true;
-        double currentPosition;
-        DispatcherTimer timer;
+        bool fullScreen = false;
+        
+        
+
         public MainWindow()
         {
             InitializeComponent();
             mePlayer.Play();
-            
+            DispatcherTimer timer = new DispatcherTimer();
+            timer.Interval = TimeSpan.FromSeconds(1);
+            timer.Tick += timer_Tick;
+            timer.Start();
+
         }
 
-      
+        private void timer_Tick(object sender, EventArgs e)
+        {
+            if ((mePlayer.Source != null) && (mePlayer.NaturalDuration.HasTimeSpan) && (!isDragging))
+            {
+                scrub.Minimum = 0;
+                scrub.Maximum = mePlayer.NaturalDuration.TimeSpan.TotalSeconds;
+                scrub.Value = mePlayer.Position.TotalSeconds;
+            }
+        }
+
+        private void scrub_DragStarted(object sender, EventArgs e)
+        {
+            isDragging = true;
+        }
+
+
+        private void scrub_DragCompleted(object sender, EventArgs e)
+        {
+            isDragging = false;
+            mePlayer.Position = TimeSpan.FromSeconds(scrub.Value);
+        }
+
 
         private void btnPlay_Click(object sender, RoutedEventArgs e)
         {
@@ -61,5 +79,59 @@ namespace mov
             mePlayer.Position += TimeSpan.FromSeconds(10);
         }
 
+        private void keys(object sender, KeyEventArgs e)
+        {
+            if(e.Key == Key.Space)
+            {
+                if (isPlaying)
+                {
+                    mePlayer.Pause();
+                }
+                else
+                {
+                    mePlayer.Play();
+                }
+                isPlaying = !isPlaying;
+            }
+
+            if (e.Key == Key.F)
+            {
+                if (!fullScreen)
+                {
+                    this.WindowStyle = WindowStyle.None;
+                    this.WindowState = WindowState.Maximized;
+                }
+                else
+                {
+                    this.WindowStyle = WindowStyle.SingleBorderWindow;
+                    this.WindowState = WindowState.Normal;
+                }
+
+                fullScreen = !fullScreen;
+            }
+
+            if(fullScreen && e.Key == Key.Escape)
+            {
+                fullScreen = false;
+                this.WindowState = WindowState.Normal;
+            }
+        }
+
+
+        private void hidCont(object sender, MouseEventArgs e)
+        {
+
+            contP.Opacity = 0;
+            scrub.Opacity = 0;
+
+        }
+
+        private void showCont(object sender, MouseEventArgs e)
+        {
+
+            
+            scrub.Opacity = 100;
+            contP.Opacity = 100;
+        }
     }
 }
