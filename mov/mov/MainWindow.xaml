@@ -7,28 +7,35 @@
         mc:Ignorable="d"
         KeyDown="keys"
         WindowState="Normal"
-        Title="MainWindow" Height="328.376" Width="510.79" Background="Black" >
-    <Grid>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="81*"/>
-            <ColumnDefinition Width="44*"/>
-        </Grid.ColumnDefinitions>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="*" />
-            <RowDefinition Height="Auto" />
-        </Grid.RowDefinitions>
-        <MediaElement Source="C:/users/topca/test.mp4" LoadedBehavior="Manual" Name="mePlayer" Margin="0,0,-8,0.2" Grid.RowSpan="2" Grid.ColumnSpan="2"  />
-        <StackPanel x:Name ="cont" Grid.Row="2" Grid.ColumnSpan="2" MouseLeave="hideCont" MouseMove="showCont">
-            
-            <WrapPanel x:Name="contP" HorizontalAlignment="Stretch">                
-                    <Button x:Name="btnRW" Click="btnRW_Click" Content="-10"/>
-                    <Button x:Name="btnPlay" Click="btnPlay_Click">Play</Button>
-                    <Button x:Name="btnFF" Click="btnFF_Click" Content="+10"/>
-                   </WrapPanel>
-            <Slider x:Name="scrub" Thumb.DragStarted="scrub_DragStarted"  Thumb.DragCompleted="scrub_DragCompleted" HorizontalAlignment="Stretch"/>
-
-        </StackPanel>
         
-       
+        Title="MainWindow" Height="361.976" Width="516.39" Background="Black" >
+    <Grid>
+        
+        <MediaElement Source="e://test.mp4" LoadedBehavior="Manual" Name="mePlayer" Grid.ColumnSpan="2"  />
+        <StackPanel x:Name ="cont"  VerticalAlignment="Bottom" HorizontalAlignment="Stretch" MouseLeave="hideCont" Height="Auto" MouseMove="showCont" Margin="0,300,-0.4,-0.2" Grid.RowSpan="2">
+            <Grid x:Name="contP" Background="DimGray" Opacity="10"  Height="35">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="4*" />
+                    <ColumnDefinition Width="1*" />
+                </Grid.ColumnDefinitions>
+
+                <Button x:Name="btnRW" BorderThickness="0" Background="Transparent"  Click="btnRW_Click" Margin="6,0,375.6,0">
+                    <Image x:Name="PlayRW" Source="/resources/rewind.png"  RenderTransformOrigin="1.247,0.506" Height="25" />
+                </Button>
+                <Button x:Name="btnPlay" BorderThickness="0" Background="Transparent"  Click="btnPlay_Click" Margin="33,0,341.6,0">
+                    <Image x:Name="PlayImg" Source="/resources/pause.png"  RenderTransformOrigin="1.247,0.506" Height="23" />
+                </Button>
+                <Button x:Name="btnFF" BorderThickness="0" Background="Transparent"  Click="btnFF_Click" Margin="66,0,315.6,0">
+                    <Image x:Name="FFImg" Source="/resources/fastforward.png"  RenderTransformOrigin="1.247,0.506" Height="25" />
+                </Button>
+                <Button x:Name="btnMute" BorderThickness="0" Background="Transparent"  Click="btnMute_Click" Margin="99,0,281.6,0">
+                    <Image x:Name="MuteImg" Source="Resources/mute.png"  RenderTransformOrigin="1.247,0.506"/>
+                </Button>
+                <Slider x:Name="pbVolume" Maximum="1" Value="{Binding Volume, ElementName=mePlayer}" Margin="128,7,235.6,1" RenderTransformOrigin="-0.168,2.625" />
+                <Slider x:Name="scrub" Thumb.DragStarted="scrub_DragStarted"  Thumb.DragCompleted="scrub_DragCompleted" Margin="179,6,10,2" Grid.ColumnSpan="2" />
+            </Grid>
+        </StackPanel>
+
+
     </Grid>
 </Window>
