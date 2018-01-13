@@ -7,17 +7,16 @@
         mc:Ignorable="d"
         KeyDown="keys"
         WindowState="Normal"
-        
         Title="MainWindow" Height="361.976" Width="516.39" Background="Black" >
     <Grid>
         <MediaElement Source="e://test.mp4" LoadedBehavior="Manual" Name="mePlayer" Grid.ColumnSpan="2"  />
-
         <StackPanel x:Name ="cont"  VerticalAlignment="Bottom" HorizontalAlignment="Stretch" MouseLeave="hideCont" Height="Auto" MouseMove="showCont" Margin="0,300,-0.4,-0.2" Grid.RowSpan="2">
             <Grid x:Name="contP" Background="DimGray" Height="35" Panel.ZIndex="1000">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="4*" />
                     <ColumnDefinition Width="1*" />
                 </Grid.ColumnDefinitions>
+                <!-- DO NOT MESS WITH THIS GRID, buttins will get v wonky-->
                 <Grid HorizontalAlignment="Left" Width="143">
                     <Button x:Name="btnRW" BorderThickness="0" Background="Transparent"  Click="btnRW_Click" Margin="0,0,93,0.2" >
                         <Image x:Name="PlayRW" Source="/resources/rewind.png"  RenderTransformOrigin="1.247,0.506" Height="25" />
@@ -32,12 +31,9 @@
                         <Image x:Name="MuteImg" Source="Resources/mute.png"  RenderTransformOrigin="1.247,0.506" Width="23"/>
                     </Button>
                 </Grid>
-                <Slider x:Name="pbVolume" Maximum="1" Value="{Binding Volume, ElementName=mePlayer}" Margin="148,6,0,5" RenderTransformOrigin="-0.168,2.625" HorizontalAlignment="Left" Width="46" />
+                <Slider x:Name="VolumeScrub" Maximum="1" Value="{Binding Volume, ElementName=mePlayer}" Margin="148,6,0,5" RenderTransformOrigin="-0.168,2.625" HorizontalAlignment="Left" Width="46" />
                 <Slider x:Name="scrub" Thumb.DragStarted="scrub_DragStarted"  Thumb.DragCompleted="scrub_DragCompleted" Margin="199,6,10,2" Grid.ColumnSpan="2" />
             </Grid>
         </StackPanel>
-        
-
-
     </Grid>
 </Window>

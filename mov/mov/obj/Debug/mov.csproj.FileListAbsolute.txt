@@ -29,3 +29,5 @@ E:\gitprojects\localplayflix\mov\mov\obj\Debug\mov.csproj.GenerateResource.Cache
 E:\gitprojects\localplayflix\mov\mov\obj\Debug\mov.csproj.CoreCompileInputs.cache
 E:\gitprojects\localplayflix\mov\mov\obj\Debug\mov.exe
 E:\gitprojects\localplayflix\mov\mov\obj\Debug\mov.pdb
+E:\gitprojects\localplayflix\mov\mov\bin\Debug\Newtonsoft.Json.dll
+E:\gitprojects\localplayflix\mov\mov\bin\Debug\Newtonsoft.Json.xml
