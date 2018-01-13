@@ -12,7 +12,7 @@ class databaseConnection{
 	//mysql initial connection
 	function connect(){
 		$host = 'localhost';
-		$db = 'localplayfix';
+		$db = 'localplayflix';
 		$user = 'root';
 		$pass = '';
 		$charset = 'utf8';
@@ -201,4 +201,17 @@ class User{
 $conn = new databaseConnection;
 $conn->connect();
 echo phpversion() . PHP_EOL;
+
+
+$stmt1 = $conn->pdo->query("Select * from movies");
+//var_dump($stmt1);
+while($row = $stmt1->fetch()){
+	print_r($row);
+}
+//generate a ton of random data to populate database
+// for($i = 0; $i < 1000; $i++){
+// 	$conn->insert(array("name", "description", "location"), array(bin2hex(random_bytes(50)), bin2hex(random_bytes(100)), 	bin2hex(random_bytes(100))), "movies");
+// }
+//print_r(array(bin2hex(random_bytes(50)), bin2hex(random_bytes(1000)), bin2hex(random_bytes(100))));
 ?>
+
