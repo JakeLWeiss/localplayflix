@@ -32,7 +32,7 @@
                     </Button>
                 </Grid>
                 <Slider x:Name="VolumeScrub" Maximum="1" Value="{Binding Volume, ElementName=mePlayer}" Margin="148,6,0,5" RenderTransformOrigin="-0.168,2.625" HorizontalAlignment="Left" Width="46" />
-                <Slider x:Name="scrub" Thumb.DragStarted="scrub_DragStarted"  Thumb.DragCompleted="scrub_DragCompleted" Margin="199,6,10,2" Grid.ColumnSpan="2" />
+                <Slider x:Name="scrub" Thumb.DragStarted="scrub_DragStarted" IsMoveToPointEnabled="True" Thumb.DragCompleted="scrub_DragCompleted" Margin="199,6,10,2" Grid.ColumnSpan="2" />
             </Grid>
         </StackPanel>
     </Grid>

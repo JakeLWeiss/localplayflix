@@ -1,6 +1,13 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
+using System;
+using System.IO;
+using System.Net;
+using System.Runtime.Serialization;
+using System.Runtime.Serialization.Json;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Controls.Primitives;
 using System.Windows.Input;
 using System.Windows.Media.Imaging;
 using System.Windows.Threading;
@@ -9,12 +16,38 @@ using System.Windows.Threading;
 namespace mov {
 
     public partial class MainWindow : Window {
-        
+
+        [DataContract]
+        internal class Movie {
+            [DataMember]
+            internal Uri movieid;
+            [DataMember]
+            internal int resumeTime;
+        }
+
         //vars for cheking the scrubbing state, window state, and the play state
         bool isDragging = false;
         bool isPlaying = true;
         bool fullScreen = false;
         double volHist; //remembering the volume for mute toggle
+        Movie m = new Movie(); //metadata for the movie
+
+        private Movie parseJSON() {
+            try {
+                using (WebClient wc = new WebClient()) {
+                    var json = wc.DownloadString("http://192.168.0.137/metadata.json");
+                    JObject j = (JObject)JsonConvert.DeserializeObject(json);
+                    JObject o = JObject.Parse(json);
+                 
+                    m.movieid = new Uri((string)j.GetValue("movieid"));
+                    m.resumeTime = (int)j.GetValue("resumeTime");
+                   
+                }
+            } catch {
+                Console.WriteLine("Connection to apache server failed. Test media loaded");
+            }
+            return m;
+        }
 
         private void muteToggle() { //toggles mute control
             if (mePlayer.Volume != 0) {
@@ -28,23 +61,36 @@ namespace mov {
         private void pauseToggle() {//toggles pause control
             if (!isPlaying) {
                 mePlayer.Play();
-                PlayImg.Source = new BitmapImage(new Uri("Resources/pause.png", UriKind.Relative));
+                PlayImg.Source = new BitmapImage(new Uri("Resources/pause.png", UriKind.Relative)); //toggles pause image
                 isPlaying = true;
             } else {
                 mePlayer.Pause();
-                PlayImg.Source = new BitmapImage(new Uri("Resources/play.png", UriKind.Relative));
+                PlayImg.Source = new BitmapImage(new Uri("Resources/play.png", UriKind.Relative)); //toggles play image
                 isPlaying = false;
             }
         }
 
+        private void loadMedia() {
+            parseJSON();
+            if (m.movieid != null) {
+                mePlayer.Source = m.movieid;
+                mePlayer.Position = TimeSpan.FromSeconds(m.resumeTime);
+            }
+            mePlayer.Play();//auto play the video
+        }
+
         public MainWindow() {
             InitializeComponent();
-            
-            mePlayer.Play();//auto play the video
+      
+            loadMedia();
+                                  
             DispatcherTimer timer = new DispatcherTimer(); //dispatch timer in order to update the scrubbing
             timer.Interval = TimeSpan.FromSeconds(1); //update the scrub bar every second and tick the timer
             timer.Tick += timer_Tick;
             timer.Start();
+            scrub.ApplyTemplate();
+            Thumb thumb = (scrub.Template.FindName("PART_Track", scrub) as Track).Thumb;
+            thumb.MouseEnter += new MouseEventHandler(thumb_MouseEnter);
 
         }
 
@@ -64,6 +110,18 @@ namespace mov {
         private void scrub_DragCompleted(object sender, EventArgs e) {
             isDragging = false;
             mePlayer.Position = TimeSpan.FromSeconds(scrub.Value); //change time to scrubbed value 
+        }
+
+        private void thumb_MouseEnter(object sender, MouseEventArgs e) {
+            if (e.LeftButton == MouseButtonState.Pressed && e.MouseDevice.Captured == null) {
+
+                MouseButtonEventArgs args = new MouseButtonEventArgs(e.MouseDevice, e.Timestamp, MouseButton.Left);
+
+                args.RoutedEvent = MouseLeftButtonDownEvent;
+
+                (sender as Thumb).RaiseEvent(args);
+
+            }
         }
 
         private void btnPlay_Click(object sender, RoutedEventArgs e) {
@@ -95,11 +153,11 @@ namespace mov {
                 this.WindowState = WindowState.Normal;
             }
 
-            //volume and scrubbing conroll with arrow keys
-            if (e.Key == Key.Up && mePlayer.Volume < 1) mePlayer.Volume += .1;
-            if (e.Key == Key.Down && mePlayer.Volume > 0) mePlayer.Volume -= .1;
-            if (e.Key == Key.Left) mePlayer.Position -= TimeSpan.FromSeconds(5);
-            if (e.Key == Key.Right) mePlayer.Position += TimeSpan.FromSeconds(5);
+            //volume and scrubbing conroll with wasd keys
+            if (e.Key == Key.W && mePlayer.Volume < 1) mePlayer.Volume += .1;
+            if (e.Key == Key.S && mePlayer.Volume > 0) mePlayer.Volume -= .1;
+            if (e.Key == Key.A) mePlayer.Position -= TimeSpan.FromSeconds(5);
+            if (e.Key == Key.D) mePlayer.Position += TimeSpan.FromSeconds(5);
 
             if (e.Key == Key.M){ //mute on m press
                 muteToggle();
