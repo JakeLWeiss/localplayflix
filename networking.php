@@ -11,8 +11,8 @@ class databaseConnection{
 	
 	//mysql initial connection
 	function connect(){
-		$host = '';
-		$db = '';
+		$host = 'localhost';
+		$db = 'localplayfix';
 		$user = 'root';
 		$pass = '';
 		$charset = 'utf8';
@@ -198,5 +198,7 @@ class User{
 	}
 
 }
-
+$conn = new databaseConnection;
+$conn->connect();
+echo phpversion() . PHP_EOL;
 ?>
