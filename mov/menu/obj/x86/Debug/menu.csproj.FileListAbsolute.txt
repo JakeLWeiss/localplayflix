@@ -211,3 +211,14 @@ E:\gitprojects\localplayflix\mov\menu\obj\x86\Debug\qualifiers.txt
 E:\gitprojects\localplayflix\mov\menu\obj\x86\Debug\qualifiers.txt.intermediate
 E:\gitprojects\localplayflix\mov\menu\obj\x86\Debug\MultipleQualifiersPerDimensionFound.txt
 E:\gitprojects\localplayflix\mov\menu\obj\x86\Debug\ProjectArchitectures.txt
+E:\gitprojects\localplayflix\mov\menu\bin\x86\Debug\Newtonsoft.Json.dll
+E:\gitprojects\localplayflix\mov\menu\bin\x86\Debug\System.Console.dll
+E:\gitprojects\localplayflix\mov\menu\bin\x86\Debug\System.ComponentModel.Primitives.dll
+E:\gitprojects\localplayflix\mov\menu\bin\x86\Debug\System.ComponentModel.TypeConverter.dll
+E:\gitprojects\localplayflix\mov\menu\bin\x86\Debug\System.Runtime.InteropServices.RuntimeInformation.dll
+E:\gitprojects\localplayflix\mov\menu\bin\x86\Debug\System.Runtime.Serialization.Formatters.dll
+E:\gitprojects\localplayflix\mov\menu\obj\x86\Debug\FxResources.System.Console.SR.resw
+E:\gitprojects\localplayflix\mov\menu\obj\x86\Debug\FxResources.System.ComponentModel.Primitives.SR.resw
+E:\gitprojects\localplayflix\mov\menu\obj\x86\Debug\FxResources.System.ComponentModel.TypeConverter.SR.resw
+E:\gitprojects\localplayflix\mov\menu\obj\x86\Debug\FxResources.System.Runtime.InteropServices.RuntimeInformation.SR.resw
+E:\gitprojects\localplayflix\mov\menu\obj\x86\Debug\FxResources.System.Runtime.Serialization.Formatters.SR.resw
