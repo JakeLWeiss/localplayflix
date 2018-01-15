@@ -7,8 +7,8 @@
 
     For more information on package manifest files, see http://go.microsoft.com/fwlink/?LinkID=241727
   -->
-  <Identity Name="017e9e0e-9d56-4623-9973-55d04459ab0e" Publisher="CN=topca" Version="1.0.0.0" ProcessorArchitecture="x86" />
-  <mp:PhoneIdentity PhoneProductId="017e9e0e-9d56-4623-9973-55d04459ab0e" PhonePublisherId="00000000-0000-0000-0000-000000000000" />
+  <Identity Name="cdde9656-8f9e-4cb6-8cec-f152d5680ec4" Publisher="CN=topca" Version="1.0.0.0" ProcessorArchitecture="x86" />
+  <mp:PhoneIdentity PhoneProductId="cdde9656-8f9e-4cb6-8cec-f152d5680ec4" PhonePublisherId="00000000-0000-0000-0000-000000000000" />
   <Properties>
     <DisplayName>menu</DisplayName>
     <PublisherDisplayName>topca</PublisherDisplayName>
@@ -39,7 +39,7 @@
     <build:Item Name="VisualStudioEdition" Value="Microsoft Visual Studio Community 2017" />
     <build:Item Name="OperatingSystem" Version="10.0.16299.15 (WinBuild.160101.0800)" />
     <build:Item Name="Microsoft.Build.AppxPackage.dll" Version="15.0.26906.1" />
-    <build:Item Name="ProjectGUID" Value="{A0425CF8-623D-4413-8365-5DA2647B655B}" />
+    <build:Item Name="ProjectGUID" Value="{81D3515E-87F3-404C-8F87-C76325598C0B}" />
     <build:Item Name="OptimizingToolset" Value="None" />
     <build:Item Name="TargetRuntime" Value="Managed" />
     <build:Item Name="Microsoft.Windows.UI.Xaml.Build.Tasks.dll" Version="15.0.26906.1" />

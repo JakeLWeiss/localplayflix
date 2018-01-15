@@ -17,6 +17,7 @@ namespace mov {
 
     public partial class MainWindow : Window {
 
+        //mini class to store metadata in a container sor safty
         [DataContract]
         internal class Movie {
             [DataMember]
@@ -32,14 +33,14 @@ namespace mov {
         double volHist; //remembering the volume for mute toggle
         Movie m = new Movie(); //metadata for the movie
 
-        private Movie parseJSON() {
+        private Movie parseJSON() { //parses the metadata json from apache server
             try {
                 using (WebClient wc = new WebClient()) {
-                    var json = wc.DownloadString("http://192.168.0.137/metadata.json");
-                    JObject j = (JObject)JsonConvert.DeserializeObject(json);
-                    JObject o = JObject.Parse(json);
+                    var json = wc.DownloadString("http://192.168.0.137/metadata.json"); //downloads the metadata file
+                    JObject j = (JObject)JsonConvert.DeserializeObject(json); 
+                    JObject o = JObject.Parse(json); //read in and parse json
                  
-                    m.movieid = new Uri((string)j.GetValue("movieid"));
+                    m.movieid = new Uri((string)j.GetValue("movieid")); //set parameters to watch the movie with
                     m.resumeTime = (int)j.GetValue("resumeTime");
                    
                 }
@@ -71,10 +72,10 @@ namespace mov {
         }
 
         private void loadMedia() {
-            parseJSON();
-            if (m.movieid != null) {
+            parseJSON();    //collects metadata
+            if (m.movieid != null) { //makes sure fail isnt a crash
                 mePlayer.Source = m.movieid;
-                mePlayer.Position = TimeSpan.FromSeconds(m.resumeTime);
+                mePlayer.Position = TimeSpan.FromSeconds(m.resumeTime); //gives off stopped time
             }
             mePlayer.Play();//auto play the video
         }
@@ -82,15 +83,15 @@ namespace mov {
         public MainWindow() {
             InitializeComponent();
       
-            loadMedia();
+            loadMedia();//loads media to play
                                   
             DispatcherTimer timer = new DispatcherTimer(); //dispatch timer in order to update the scrubbing
             timer.Interval = TimeSpan.FromSeconds(1); //update the scrub bar every second and tick the timer
             timer.Tick += timer_Tick;
             timer.Start();
-            scrub.ApplyTemplate();
+            scrub.ApplyTemplate(); //apply template so that the thumb can be acessed as its own object
             Thumb thumb = (scrub.Template.FindName("PART_Track", scrub) as Track).Thumb;
-            thumb.MouseEnter += new MouseEventHandler(thumb_MouseEnter);
+            thumb.MouseEnter += new MouseEventHandler(thumb_MouseEnter);//bind thumb action to scrub bar
 
         }
 
@@ -112,13 +113,10 @@ namespace mov {
             mePlayer.Position = TimeSpan.FromSeconds(scrub.Value); //change time to scrubbed value 
         }
 
-        private void thumb_MouseEnter(object sender, MouseEventArgs e) {
+        private void thumb_MouseEnter(object sender, MouseEventArgs e) { //action listener for the track bar and scrubbing use click 
             if (e.LeftButton == MouseButtonState.Pressed && e.MouseDevice.Captured == null) {
-
                 MouseButtonEventArgs args = new MouseButtonEventArgs(e.MouseDevice, e.Timestamp, MouseButton.Left);
-
                 args.RoutedEvent = MouseLeftButtonDownEvent;
-
                 (sender as Thumb).RaiseEvent(args);
 
             }

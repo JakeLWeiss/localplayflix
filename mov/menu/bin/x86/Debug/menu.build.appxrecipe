@@ -8,7 +8,7 @@
     <TargetOsDescription>Windows 10.0</TargetOsDescription>
     <SolutionConfiguration>Debug|x86</SolutionConfiguration>
     <PackageArchitecture>x86</PackageArchitecture>
-    <PackageIdentityName>017e9e0e-9d56-4623-9973-55d04459ab0e</PackageIdentityName>
+    <PackageIdentityName>cdde9656-8f9e-4cb6-8cec-f152d5680ec4</PackageIdentityName>
     <PackageIdentityPublisher>CN=topca</PackageIdentityPublisher>
     <IntermediateOutputPath>E:\gitprojects\localplayflix\mov\menu\obj\x86\Debug\</IntermediateOutputPath>
     <RemoteDeploymentType></RemoteDeploymentType>
