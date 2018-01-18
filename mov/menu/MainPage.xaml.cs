@@ -3,9 +3,14 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Net;
 using System.Net.Http;
+using System.Net.Http.Headers;
+using System.Text;
+using Windows.Storage;
 using Windows.UI.Xaml.Controls;
+using Windows.Web.Http;
 
 // The Blank Page item template is documented at https://go.microsoft.com/fwlink/?LinkId=402352&clcid=0x409
 
@@ -23,10 +28,25 @@ namespace menu {
         }
 
         private void GridView_ItemClick(object sender, ItemClickEventArgs e) {
-            var movie= (Movie)e.ClickedItem;
-            ResultTextBlock.Text = "You Selected--->>" + movie.name + " with URI " + movie.id;
+            Movie m= (Movie)e.ClickedItem;
+           writeLocalAsync(m);
+            ResultTextBlock.Text = "You Selected--->>" + m.name + " with URI " + m.id;
         }
 
+
+        private async void writeLocalAsync(Movie m) {
+
+            /*
+            using (System.IO.StreamWriter file =
+            new System.IO.StreamWriter("e:\\gitprojects\\metadata.txt")) {
+                
+                file.WriteLine("{ \"movieid\": \"" + m.id + "\" , \"resumetime\": 0  }");
+            }
+            */
+            Windows.Storage.StorageFolder storageFolder = await KnownFolders.DocumentsLibrary.CreateFolderAsync("metadata");
+            Windows.Storage.StorageFile sampleFile = await storageFolder.CreateFileAsync("metadata.json", Windows.Storage.CreationCollisionOption.ReplaceExisting);
+            await Windows.Storage.FileIO.WriteTextAsync(sampleFile, "{ \"movieid\": \"" + m.id + "\" , \"resumetime\": 0  }");
+        }
        
     }
 }
@@ -61,18 +81,19 @@ namespace Binding {
             
             List<Movie> movs = new List<Movie>();
             try {
-                using (HttpClient client = new HttpClient()) {
-                    using (HttpResponseMessage response = client.GetAsync("http://192.168.0.137/metadatafull.json").Result) {
+                using (System.Net.Http.HttpClient client = new System.Net.Http.HttpClient()) {
+                    using (System.Net.Http.HttpResponseMessage response = client.GetAsync("http://localhost/metadatafull.json").Result) {
                         using (HttpContent content = response.Content) {
                             var json = content.ReadAsStringAsync().Result;
                             List<JObject> jobs = JsonConvert.DeserializeObject<List<JObject>>(json);
-                            foreach (JObject j in jobs) { 
-                                movies.Add(new Movie { 
-                                    id = new Uri((string)j.GetValue("movieid")), //set parameters to watch the movie with
+                            foreach (JObject j in jobs) {
+                                movies.Add(new Movie {
+                                    id = new Uri((string)j.GetValue("id")), //set parameters to watch the movie with
                                     name = (string)j.GetValue("description"),
                                     description = (string)j.GetValue("description"),
                                     thumbnail = (string)j.GetValue("thumbnail"),
                                 });
+                            Console.WriteLine((string)j.GetValue("description"));
                             }
                         }
                     }

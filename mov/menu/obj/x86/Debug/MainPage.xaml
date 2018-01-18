@@ -7,15 +7,20 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:data="using:Binding"
     xmlns:Name="local"
-    mc:Ignorable="d">
+    xmlns:media="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    mc:Ignorable="d" >
+    
 
-    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-        <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+    <Grid Background="{ThemeResource SystemControlAcrylicElementBrush}">
+       
+        <Grid Background="{ThemeResource SystemControlAcrylicElementBrush}" >
+            
             <Grid.RowDefinitions>
                 <RowDefinition Height="*" />
                 <RowDefinition Height="100" />
             </Grid.RowDefinitions>
-            <GridView x:ConnectionId='2'                               IsItemClickEnabled="True"                               >
+            
+            <GridView x:ConnectionId='2'                                IsItemClickEnabled="True"                               >
                 <GridView.ItemTemplate>
                     <DataTemplate                        >
                         <StackPanel x:ConnectionId='4' Orientation="Horizontal" HorizontalAlignment="Center">
@@ -31,5 +36,6 @@
             <TextBlock x:ConnectionId='3' Grid.Row="1" Name="ResultTextBlock" FontSize="24" Foreground="Red" FontWeight="Bold" />
         </Grid>
     </Grid>
-</Page>  
+</Page>
+
 

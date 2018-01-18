@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json;
+﻿using Menu;
+using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System;
 using System.IO;
@@ -36,12 +37,14 @@ namespace mov {
         private Movie parseJSON() { //parses the metadata json from apache server
             try {
                 using (WebClient wc = new WebClient()) {
-                    var json = wc.DownloadString("http://192.168.0.137/metadata.json"); //downloads the metadata file
+                    var json = wc.DownloadString("http://localhost/metadata.json"); //downloads the metadata file
                     JObject j = (JObject)JsonConvert.DeserializeObject(json); 
                     JObject o = JObject.Parse(json); //read in and parse json
                  
+                    
                     m.movieid = new Uri((string)j.GetValue("movieid")); //set parameters to watch the movie with
                     m.resumeTime = (int)j.GetValue("resumeTime");
+                    Console.WriteLine("\n\n\n" + m.movieid.ToString() + "\n\n\n");
                    
                 }
             } catch {
@@ -82,9 +85,11 @@ namespace mov {
 
         public MainWindow() {
             InitializeComponent();
-      
+            
+            
             loadMedia();//loads media to play
-                                  
+            menu m = new menu();
+            m.Show();
             DispatcherTimer timer = new DispatcherTimer(); //dispatch timer in order to update the scrubbing
             timer.Interval = TimeSpan.FromSeconds(1); //update the scrub bar every second and tick the timer
             timer.Tick += timer_Tick;

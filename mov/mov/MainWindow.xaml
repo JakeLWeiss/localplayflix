@@ -10,7 +10,9 @@
         Title="MainWindow" Height="361.976" Width="516.39" Background="Black" >
     <Grid>
         <MediaElement Source="e://test.mp4" LoadedBehavior="Manual" Name="mePlayer" Grid.ColumnSpan="2"  />
-        <StackPanel x:Name ="cont"  VerticalAlignment="Bottom" HorizontalAlignment="Stretch" MouseLeave="hideCont" Height="Auto" MouseMove="showCont" Margin="0,300,-0.4,-0.2" Grid.RowSpan="2">
+        <StackPanel x:Name ="cont"  
+                    VerticalAlignment="Bottom" 
+                    HorizontalAlignment="Stretch" MouseLeave="hideCont" Height="Auto" MouseMove="showCont" Margin="0,300,-0.4,-0.2" Grid.RowSpan="2">
             <Grid x:Name="contP" Background="DimGray" Height="35" Panel.ZIndex="1000">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="4*" />

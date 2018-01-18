@@ -31,3 +31,6 @@ E:\gitprojects\localplayflix\mov\mov\obj\Debug\mov.exe
 E:\gitprojects\localplayflix\mov\mov\obj\Debug\mov.pdb
 E:\gitprojects\localplayflix\mov\mov\bin\Debug\Newtonsoft.Json.dll
 E:\gitprojects\localplayflix\mov\mov\bin\Debug\Newtonsoft.Json.xml
+E:\gitprojects\localplayflix\mov\mov\obj\Debug\menu.g.cs
+E:\gitprojects\localplayflix\mov\mov\obj\Debug\menu.baml
+E:\gitprojects\localplayflix\mov\mov\obj\Debug\GeneratedInternalTypeHelper.g.cs
