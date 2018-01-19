@@ -1,11 +1,16 @@
 ﻿using Binding;
+
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Net;
 using System.Net.Http;
+using System.Text;
+using System.Web.Script.Serialization;
 using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Input;
 
 namespace lpflix {
@@ -14,7 +19,7 @@ namespace lpflix {
     /// </summary>
     public partial class MainWindow : Window {
 
-        
+        Movie m;
 
         public MainWindow() {
 
@@ -23,20 +28,58 @@ namespace lpflix {
         }
 
         private void dg_KeyDown(object sender, KeyEventArgs e) {
-            
+
+            m =(Movie) dg.SelectedItem;
             if (e.Key == Key.Space) { //toggle pause on space press
-                //TODO add file write
-                Movie m =(Movie) dg.SelectedItem;
+                                      //TODO add file write
                 
-                using (StreamWriter file = File.CreateText("c:/lpflix/metadata.json")) {
+                string path = System.IO.Path.GetDirectoryName(System.Diagnostics.Process.GetCurrentProcess().MainModule.FileName);
+
+
+                using (StreamWriter file = File.CreateText(path+"/../../Resources/metadata.json")) {
                     JsonSerializer serializer = new JsonSerializer();
                     //serialize object directly into file stream
                     serializer.Serialize(file, m);
                 }
-                player p = new player();
-                p.Show();
+
+
+                try {
+                    //create WebClient object
+                    WebClient client = new WebClient();
+
+                    client.Credentials = CredentialCache.DefaultCredentials;
+
+                    String s = JsonConvert.SerializeObject(m);
+                    Console.WriteLine(s);
+
+                    // new WebClient().UploadFile("http://localhost/metadata2.json", "POST", @"c:/lpflix/metadata2.json");
+                    //client.Dispose();
+                    
+
+
+                } catch (Exception err) {
+                    MessageBox.Show(err.Message);
+                }
+                loadScreen();
+               
             }
 
+        }
+
+        private void dg_SelectionChanged(object sender, System.Windows.Controls.SelectionChangedEventArgs e) {
+            m = (Movie)dg.SelectedItem;
+            
+        }
+
+        private void play_Click(object sender, RoutedEventArgs e) {
+            
+            m = (Movie)dg.SelectedItem;
+            loadScreen();
+        }
+
+        private void loadScreen() {
+            player p = new player();
+            p.Show();
         }
     }
 }
@@ -71,7 +114,7 @@ namespace Binding {
 
     public class Movies : List<Movie> {
         public Movies() {
-            
+
             try {
                 using (System.Net.Http.HttpClient client = new System.Net.Http.HttpClient()) {
                     using (System.Net.Http.HttpResponseMessage response = client.GetAsync("http://localhost/metadatafull.json").Result) {

@@ -21,7 +21,7 @@ namespace lpflix {
             [DataMember]
             internal Uri movieid;
             [DataMember]
-            internal int resumeTime;
+            internal int resumetime;
         }
 
         public player() {
@@ -46,30 +46,16 @@ namespace lpflix {
         Movie m = new Movie(); //metadata for the movie
 
         private Movie parseJSON() { //parses the metadata json from apache server
-                                    /* 
-                                     try {
-                                         using (WebClient wc = new WebClient()) {
-                                             var json = wc.DownloadString("http://localhost/metadata.json"); //downloads the metadata file
-                                             JObject j = (JObject)JsonConvert.DeserializeObject(json);
-                                             JObject o = JObject.Parse(json); //read in and parse json
 
-                                             m.movieid = new Uri((string)j.GetValue("movieid")); //set parameters to watch the movie with
-                                             m.resumeTime = (int)j.GetValue("resumeTime");
-                                             Console.WriteLine("\n\n\n" + m.movieid.ToString() + "\n\n\n");
+            string path = System.IO.Path.GetDirectoryName(System.Diagnostics.Process.GetCurrentProcess().MainModule.FileName);
 
-                                         }
-                                     } catch {
-                                         Console.WriteLine("Connection to apache server failed. Test media loaded");
-                                     }
-                                     return m;
-                                     */
-            using (StreamReader r = new StreamReader("c:/lpflix/metadata.json")) {
+            using (StreamReader r = new StreamReader(path+ "/../../Resources/metadata.json")) {
                 string json = r.ReadToEnd();
                 JObject j = (JObject)JsonConvert.DeserializeObject(json);
                 JObject o = JObject.Parse(json); //read in and parse json
 
                 m.movieid = new Uri(((string)j.GetValue("id"))); //set parameters to watch the movie with
-                m.resumeTime = (int)j.GetValue("resumetime");
+                m.resumetime = (int)j.GetValue("resumetime");
             }
             return m;
         }
@@ -78,7 +64,7 @@ namespace lpflix {
             parseJSON();    //collects metadata
             if (m.movieid != null) { //makes sure fail isnt a crash
                 mePlayer.Source = m.movieid;
-                mePlayer.Position = TimeSpan.FromSeconds(m.resumeTime); //gives off stopped time
+                mePlayer.Position = TimeSpan.FromSeconds(m.resumetime); //gives off stopped time
             }
             mePlayer.Play();//auto play the video
         }

@@ -14,20 +14,54 @@
         <Grid>
 
             <Grid.RowDefinitions>
-                <RowDefinition Height="*" />
-                <RowDefinition Height="100" />
+                <RowDefinition />
+                <RowDefinition Height="0" />
             </Grid.RowDefinitions>
 
             <DataGrid ItemsSource="{StaticResource MovieList}" 
                       x:Name="dg"  
                       Grid.RowSpan="2" 
-                      Margin="0,0,0,-0.2"
+                      SelectionMode="Single"
+                      SelectionUnit="FullRow"
                       IsReadOnly="True"
-                      KeyDown="dg_KeyDown">
-                      
-             
-            </DataGrid>
+                      AutoGenerateColumns="False"
+                      KeyDown="dg_KeyDown"
+                      SelectionChanged="dg_SelectionChanged" Margin="0,0,0,-0.2" 
+                      SelectedIndex="0">
 
+                <DataGrid.Columns>
+
+                    <DataGridTemplateColumn Header="Thumbnail" Width=".2*">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <Image Stretch="Fill" Source="{Binding thumbnail}" />
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+
+
+                    <DataGridTemplateColumn Width=".75*">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <StackPanel>
+                                    <TextBlock Text="{Binding name}" FontFamily="Impact" TextAlignment="Center"/>
+                                    <TextBlock Text="{Binding description}"/>
+
+                                </StackPanel>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+                </DataGrid.Columns>
+            </DataGrid>
+            <Button x:Name="play" 
+                    Background="Transparent" 
+                    Click="play_Click" 
+                    BorderThickness="0" 
+                    Height="50" Width="50" 
+                    VerticalAlignment="Bottom" HorizontalAlignment="Right" 
+                    Margin="0,0,2,2">
+                <Image Stretch="Fill" Source="/Resources/play.png" />
+            </Button>
         </Grid>
 
     </Grid>
