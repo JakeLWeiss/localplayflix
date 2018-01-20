@@ -67,6 +67,7 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Movie.cs" />
     <Compile Include="menu.xaml.cs">
       <DependentUpon>menu.xaml</DependentUpon>
       <SubType>Code</SubType>

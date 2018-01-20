@@ -1,10 +1,10 @@
 ﻿
+using Binding;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System;
 using System.IO;
 using System.Net;
-using System.Runtime.Serialization;
 using System.Windows;
 using System.Windows.Controls.Primitives;
 using System.Windows.Input;
@@ -15,14 +15,14 @@ namespace lpflix {
 
     public partial class player : Window {
         
-        //mini class to store metadata in a container for safty
-        [DataContract]
-        internal class Movie {
-            [DataMember]
-            internal Uri movieid;
-            [DataMember]
-            internal int resumetime;
-        }
+
+        //vars for cheking the scrubbing state, window state, and the play state
+        bool isDragging = false;
+        bool isPlaying = true;
+        bool fullScreen = false;
+        double volHist; //remembering the volume for mute toggle
+        Movie m = new Movie(); //metadata for the movie
+        Movies movies = new Movies();
 
         public player() {
             InitializeComponent();
@@ -37,33 +37,54 @@ namespace lpflix {
             Thumb thumb = (scrub.Template.FindName("PART_Track", scrub) as Track).Thumb;
             thumb.MouseEnter += new MouseEventHandler(thumb_MouseEnter);//bind thumb action to scrub bar
 
+            DispatcherTimer udjson = new DispatcherTimer();
+            udjson.Interval = TimeSpan.FromSeconds(3);
+            udjson.Tick += Udjson_Tick;
+            udjson.Start();
         }
-        //vars for cheking the scrubbing state, window state, and the play state
-        bool isDragging = false;
-        bool isPlaying = true;
-        bool fullScreen = false;
-        double volHist; //remembering the volume for mute toggle
-        Movie m = new Movie(); //metadata for the movie
+
+        private void updateList() {
+            movies.RemoveAll(movie => movie.name.Equals(m.name));
+            movies.Add(m);
+            writeFile(@"/html/metadatafull.json", movies);
+
+        }
+
+        private void Udjson_Tick(object sender, EventArgs e) {
+            m.resumetime = (int) mePlayer.Position.TotalSeconds;
+            writeFile(@"/html/metadata.json", m);
+            updateList();
+        }
+
+        private void writeFile(string path, object t) {
+            using (StreamWriter file = File.CreateText(path)) {
+                JsonSerializer serializer = new JsonSerializer();
+                serializer.Serialize(file, t);
+            }
+        }
 
         private Movie parseJSON() { //parses the metadata json from apache server
 
-            string path = System.IO.Path.GetDirectoryName(System.Diagnostics.Process.GetCurrentProcess().MainModule.FileName);
-
-            using (StreamReader r = new StreamReader(path+ "/../../Resources/metadata.json")) {
-                string json = r.ReadToEnd();
+            WebClient client = new WebClient();
+            Stream stream = client.OpenRead("http://localhost/metadata.json");
+            StreamReader reader = new StreamReader(stream);
+            string json = reader.ReadToEnd();
                 JObject j = (JObject)JsonConvert.DeserializeObject(json);
                 JObject o = JObject.Parse(json); //read in and parse json
 
-                m.movieid = new Uri(((string)j.GetValue("id"))); //set parameters to watch the movie with
+                m.id = new Uri(((string)j.GetValue("id"))); //set parameters to watch the movie with
                 m.resumetime = (int)j.GetValue("resumetime");
-            }
+                m.thumbnail = ((string)j.GetValue("thumbnail"));
+                m.description = ((string)j.GetValue("description"));
+                m.name = ((string)j.GetValue("name"));
+
             return m;
         }
 
         private void loadMedia() {
             parseJSON();    //collects metadata
-            if (m.movieid != null) { //makes sure fail isnt a crash
-                mePlayer.Source = m.movieid;
+            if (m.id != null) { //makes sure fail isnt a crash
+                mePlayer.Source = m.id;
                 mePlayer.Position = TimeSpan.FromSeconds(m.resumetime); //gives off stopped time
             }
             mePlayer.Play();//auto play the video
