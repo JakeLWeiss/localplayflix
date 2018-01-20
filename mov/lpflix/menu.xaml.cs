@@ -25,6 +25,39 @@ namespace lpflix {
 
             InitializeComponent();
 
+            List < Movie > movies = new Movies();
+            TextBlock t = new TextBlock();
+            
+        }
+
+        private void writeFile() {
+            string path = System.IO.Path.GetDirectoryName(System.Diagnostics.Process.GetCurrentProcess().MainModule.FileName);
+
+
+            using (StreamWriter file = File.CreateText(path + "/../../Resources/metadata.json")) {
+                JsonSerializer serializer = new JsonSerializer();
+                //serialize object directly into file stream
+                serializer.Serialize(file, m);
+            }
+
+
+            try {
+                //create WebClient object
+                WebClient client = new WebClient();
+
+                client.Credentials = CredentialCache.DefaultCredentials;
+
+                String s = JsonConvert.SerializeObject(m);
+                Console.WriteLine(s);
+
+                // new WebClient().UploadFile("http://localhost/metadata2.json", "POST", @"c:/lpflix/metadata2.json");
+                //client.Dispose();
+
+
+
+            } catch (Exception err) {
+                MessageBox.Show(err.Message);
+            }
         }
 
         private void dg_KeyDown(object sender, KeyEventArgs e) {
@@ -32,34 +65,8 @@ namespace lpflix {
             m =(Movie) dg.SelectedItem;
             if (e.Key == Key.Space) { //toggle pause on space press
                                       //TODO add file write
-                
-                string path = System.IO.Path.GetDirectoryName(System.Diagnostics.Process.GetCurrentProcess().MainModule.FileName);
 
-
-                using (StreamWriter file = File.CreateText(path+"/../../Resources/metadata.json")) {
-                    JsonSerializer serializer = new JsonSerializer();
-                    //serialize object directly into file stream
-                    serializer.Serialize(file, m);
-                }
-
-
-                try {
-                    //create WebClient object
-                    WebClient client = new WebClient();
-
-                    client.Credentials = CredentialCache.DefaultCredentials;
-
-                    String s = JsonConvert.SerializeObject(m);
-                    Console.WriteLine(s);
-
-                    // new WebClient().UploadFile("http://localhost/metadata2.json", "POST", @"c:/lpflix/metadata2.json");
-                    //client.Dispose();
-                    
-
-
-                } catch (Exception err) {
-                    MessageBox.Show(err.Message);
-                }
+                writeFile();
                 loadScreen();
                
             }
@@ -68,7 +75,8 @@ namespace lpflix {
 
         private void dg_SelectionChanged(object sender, System.Windows.Controls.SelectionChangedEventArgs e) {
             m = (Movie)dg.SelectedItem;
-            
+            writeFile();
+            Console.WriteLine("Selected: "+m.name);
         }
 
         private void play_Click(object sender, RoutedEventArgs e) {
