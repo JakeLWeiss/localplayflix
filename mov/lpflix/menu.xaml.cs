@@ -7,19 +7,17 @@ using System.Windows;
 using System.Windows.Input;
 
 namespace lpflix {
-    /// <summary>
-    /// Interaction logic for MainWindow.xaml
-    /// </summary>
+    
     public partial class MainWindow : Window {
 
-        Movie m;
-        List<Movie> movs = new Movies();
+        Movie m; //global movie selected
+        List<Movie> movs = new Movies(); //full list of the movies from auto generated file
 
         public MainWindow() {
             InitializeComponent();            
         }
 
-        private void writeFile(string path, object t) {
+        private void writeFile(string path, object t) { //write metadata into json
             
             using (StreamWriter file = File.CreateText(path)) {
                 JsonSerializer serializer = new JsonSerializer();
@@ -28,30 +26,21 @@ namespace lpflix {
             }
         }
 
-        private void dg_KeyDown(object sender, KeyEventArgs e) {
-
-            m =(Movie) dg.SelectedItem;
-            if (e.Key == Key.Space) { //toggle pause on space press
-                writeFile(@"/html/metadata.json",m);
+        private void dg_KeyDown(object sender, KeyEventArgs e) {//I just love keyboard shortcuts
+            m =(Movie) dg.SelectedItem; //select movie
+            if (e.Key == Key.Space) { //allow for spacebar to be used to play the video
                 loadScreen();
-               
             }
-
         }
 
-        private void dg_SelectionChanged(object sender, System.Windows.Controls.SelectionChangedEventArgs e) {
-            m = (Movie)dg.SelectedItem;
-            writeFile(@"/html/metadata.json",m);
-            
-        }
-
-        private void play_Click(object sender, RoutedEventArgs e) { 
-            m = (Movie)dg.SelectedItem;
+        private void play_Click(object sender, RoutedEventArgs e) { //make use of the play button
+            m = (Movie)dg.SelectedItem; //select and play the movie
             loadScreen();
         }
 
-        private void loadScreen() {
-            player p = new player();
+        private void loadScreen() { //play when selected
+            writeFile(@"/html/metadata.json", m); //update to proper metadata
+            player p = new player(); 
             p.Show();
         }
     }

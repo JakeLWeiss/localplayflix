@@ -26,7 +26,7 @@
                       IsReadOnly="True"
                       AutoGenerateColumns="False"
                       KeyDown="dg_KeyDown"
-                      SelectionChanged="dg_SelectionChanged" Margin="0,0,0,-0.2" 
+                      Margin="0,0,0,-0.2" 
                       SelectedIndex="0">
 
                 <DataGrid.Columns>

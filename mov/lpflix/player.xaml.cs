@@ -14,7 +14,6 @@ using System.Windows.Threading;
 namespace lpflix {
 
     public partial class player : Window {
-        
 
         //vars for cheking the scrubbing state, window state, and the play state
         bool isDragging = false;
@@ -22,8 +21,9 @@ namespace lpflix {
         bool fullScreen = false;
         double volHist; //remembering the volume for mute toggle
         Movie m = new Movie(); //metadata for the movie
-        Movies movies = new Movies();
-
+        Movies movies = new Movies(); //list of the movies
+        DispatcherTimer hide = new DispatcherTimer(); //time to hide the controll bar (global in order to be used in action listener)
+        
         public player() {
             InitializeComponent();
 
@@ -37,26 +37,27 @@ namespace lpflix {
             Thumb thumb = (scrub.Template.FindName("PART_Track", scrub) as Track).Thumb;
             thumb.MouseEnter += new MouseEventHandler(thumb_MouseEnter);//bind thumb action to scrub bar
 
+            //timer in order to write to json
             DispatcherTimer udjson = new DispatcherTimer();
             udjson.Interval = TimeSpan.FromSeconds(3);
             udjson.Tick += Udjson_Tick;
             udjson.Start();
         }
-
-        private void updateList() {
+        
+        private void updateList() { //updates the full metadata for server
             movies.RemoveAll(movie => movie.name.Equals(m.name));
             movies.Add(m);
             writeFile(@"/html/metadatafull.json", movies);
 
         }
 
-        private void Udjson_Tick(object sender, EventArgs e) {
-            m.resumetime = (int) mePlayer.Position.TotalSeconds;
+        private void Udjson_Tick(object sender, EventArgs e) { // sets the resume time of the video
+            m.resumetime = (int)mePlayer.Position.TotalSeconds;
             writeFile(@"/html/metadata.json", m);
             updateList();
         }
 
-        private void writeFile(string path, object t) {
+        private void writeFile(string path, object t) { // writes to the document server root
             using (StreamWriter file = File.CreateText(path)) {
                 JsonSerializer serializer = new JsonSerializer();
                 serializer.Serialize(file, t);
@@ -69,14 +70,14 @@ namespace lpflix {
             Stream stream = client.OpenRead("http://localhost/metadata.json");
             StreamReader reader = new StreamReader(stream);
             string json = reader.ReadToEnd();
-                JObject j = (JObject)JsonConvert.DeserializeObject(json);
-                JObject o = JObject.Parse(json); //read in and parse json
+            JObject j = (JObject)JsonConvert.DeserializeObject(json);
+            JObject o = JObject.Parse(json); //read in and parse json
 
-                m.id = new Uri(((string)j.GetValue("id"))); //set parameters to watch the movie with
-                m.resumetime = (int)j.GetValue("resumetime");
-                m.thumbnail = ((string)j.GetValue("thumbnail"));
-                m.description = ((string)j.GetValue("description"));
-                m.name = ((string)j.GetValue("name"));
+            m.id = new Uri(((string)j.GetValue("id"))); //set parameters to watch the movie with
+            m.resumetime = (int)j.GetValue("resumetime");
+            m.thumbnail = ((string)j.GetValue("thumbnail"));
+            m.description = ((string)j.GetValue("description"));
+            m.name = ((string)j.GetValue("name"));
 
             return m;
         }
@@ -182,8 +183,15 @@ namespace lpflix {
             mePlayer.Volume += (e.Delta > 0) ? 0.1 : -0.1;
         }
 
-        private void hideCont(object sender, MouseEventArgs e) { //hits the controller bar on mouse leave
+        private void hideCont(object sender, MouseEventArgs e) { //hides the controller bar on mouse leave
+            hide.Interval = TimeSpan.FromSeconds(2); //give 2 seconds till leave
+            hide.Tick += hideTick;
+            hide.Start();
+        }
+
+        private void hideTick(object sender, EventArgs e) { //hide the bar and stop the timer untill reactivated
             contP.Opacity = 0;
+            hide.Stop();
         }
 
         private void showCont(object sender, MouseEventArgs e) { //shows the controller bar on mouse enter
