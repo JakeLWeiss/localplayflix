@@ -39,7 +39,7 @@ namespace lpflix {
 
             //timer in order to write to json
             DispatcherTimer udjson = new DispatcherTimer();
-            udjson.Interval = TimeSpan.FromSeconds(3);
+            udjson.Interval = TimeSpan.FromSeconds(1);
             udjson.Tick += Udjson_Tick;
             udjson.Start();
         }
@@ -118,6 +118,7 @@ namespace lpflix {
                 scrub.Minimum = 0; //set the minimum position
                 scrub.Maximum = mePlayer.NaturalDuration.TimeSpan.TotalSeconds;
                 scrub.Value = mePlayer.Position.TotalSeconds; //set it at the time value
+                playTime.Text = String.Format("{0} / {1}", mePlayer.Position.ToString(@"mm\:ss"), mePlayer.NaturalDuration.TimeSpan.ToString(@"mm\:ss"));
             }
         }
 

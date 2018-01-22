@@ -1,4 +1,5 @@
 ﻿<Window x:Class="lpflix.player"
+        Title="lpflix player"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
@@ -6,7 +7,7 @@
         mc:Ignorable="d"
         KeyDown="keys"
         WindowState="Normal"
-        Title="MainWindow" Height="361.976" Width="516.39" Background="Black" >
+        Height="361.976" Width="516.39" Background="Black" >
 
     <Grid>
         <MediaElement Source="e://test.mp4" LoadedBehavior="Manual" Name="mePlayer" Margin="0,0,-0.4,17.8"  />
@@ -34,7 +35,8 @@
                     </Button>
                 </Grid>
                 <Slider x:Name="VolumeScrub" Maximum="1" Value="{Binding Volume, ElementName=mePlayer}" Margin="148,5.5,0,6" RenderTransformOrigin="-0.168,2.625" HorizontalAlignment="Left" Width="46" />
-                <Slider x:Name="scrub" Thumb.DragStarted="scrub_DragStarted" IsMoveToPointEnabled="True" Thumb.DragCompleted="scrub_DragCompleted" Margin="199,4,10,4" Grid.ColumnSpan="2" />
+                <Slider x:Name="scrub" Thumb.DragStarted="scrub_DragStarted" IsMoveToPointEnabled="True" Thumb.DragCompleted="scrub_DragCompleted" Margin="199,4,78,4" Grid.ColumnSpan="2" />
+                <TextBlock x:Name="playTime" TextWrapping="Wrap"  Grid.Column="1" FontSize="10" VerticalAlignment="Center" HorizontalAlignment="Right" Width="73"/>
             </Grid>
         </StackPanel>
     </Grid>
