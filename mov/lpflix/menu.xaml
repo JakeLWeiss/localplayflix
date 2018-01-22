@@ -14,13 +14,14 @@
         <Grid>
 
             <Grid.RowDefinitions>
-                <RowDefinition />
+                <RowDefinition Height="161*" />
+                <RowDefinition Height="162*"/>
                 <RowDefinition Height="0" />
             </Grid.RowDefinitions>
 
             <DataGrid ItemsSource="{StaticResource MovieList}" 
                       x:Name="dg"  
-                      Grid.RowSpan="2" 
+                      Grid.RowSpan="3" 
                       SelectionMode="Single"
                       SelectionUnit="FullRow"
                       IsReadOnly="True"
@@ -34,7 +35,7 @@
                     <DataGridTemplateColumn Width=".2*">
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate>
-                                <Image Height ="50" Stretch="Fill" Source="{Binding thumbnail}" />
+                                <Image Stretch="Fill" Source="{Binding thumbnail}" />
                             </DataTemplate>
                         </DataGridTemplateColumn.CellTemplate>
                     </DataGridTemplateColumn>
@@ -67,7 +68,7 @@
                     </DataGridTemplateColumn>
                 </DataGrid.Columns>
             </DataGrid>
-          
+
         </Grid>
     </Grid>
 </Window>

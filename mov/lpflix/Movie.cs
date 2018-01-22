@@ -46,7 +46,7 @@ namespace Binding {
                             foreach (JObject j in jobs) {
                                 this.Add(new Movie {
                                     id = new Uri((string)j.GetValue("id")), //set parameters to watch the movie with
-                                    name = (string)j.GetValue("description"),
+                                    name = (string)j.GetValue("name"),
                                     description = (string)j.GetValue("description"),
                                     thumbnail = (string)j.GetValue("thumbnail"),
                                     resumetime = (int)j.GetValue("resumetime")
