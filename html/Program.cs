@@ -9,12 +9,11 @@ namespace Examples.System.Net
     {
         public static void Main()
         {
-			//just a little sample bit of code that, in conjunction with response.php, will do a complete post request and return decoded json data. 
-            WebRequest request = WebRequest.Create("localhost/response.php");
+            WebRequest request = WebRequest.Create("http://192.168.207.130/response.php");
             request.Method = "POST";
             
-            //data to encode. at the moment, the encoding is in url encoding mode, and the string is a JSON encoded string (JSON.stringify in a browser)
-            string postData = "thing={\"name\":\"Mirai Nikki Episode 2\",\"description\":\"Episode 2 of the Future Diary (Dubbed)\",\"id\":\"http://localhost/mnikki2.mp4\",\"thumbnail\":\"http://localhost/mnikkithumb.png\",\"resumetime\":357}";
+            //data to encode.
+            string postData = "a={\"name\":\"Mirai Nikki Episode 2\",\"description\":\"Episode 2 of the Future Diary (Dubbed)\",\"id\":\"http://localhost/mnikki2.mp4\",\"thumbnail\":\"http://localhost/mnikkithumb.png\",\"resumetime\":357}&b={\"name\":\"Stock mp4 test\",\"description\":\"Stock mp4 test\",\"id\":\"http://localhost/test.mp4\",\"thumbnail\":\"http://localhost/default.png\",\"resumetime\":59}&c={\"name\":\"Howl's Moving Castle\",\"description\":\"Studio Ghibli's Howl's moving Castle (Dubbed)\",\"id\":\"http://localhost/howlsmovingcastle.mp4\",\"thumbnail\":\"http://localhost/howlsmovingcastlethumb.png\",\"resumetime\":5146}";
             byte[] byteArray = Encoding.UTF8.GetBytes(postData);
 
             //this is up to you as to how you want to encode this. there are a ton of encoding methods. 
