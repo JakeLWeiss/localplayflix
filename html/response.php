@@ -1,4 +1,12 @@
 <?php
+session_start();
+if(!isset($_SESSION['index'])){
+	$_SESSION['index'] = 0;
+}else{
+	$_SESSION['index']++;
+	echo $_SESSION['index'] . PHP_EOL;
+}
+
 
 include "networking.php";
 
@@ -17,6 +25,5 @@ foreach($keys as $key){
 //e79a2ce31204e7510c3155c4bc8f1a0cbc20d62a5263783dfa9ca6075d891513ba15b7f8a8b5a96259cd1fe216b13e871ca1
 
 
-print_r()
 //print_r(json_decode($_POST["thing"]));
 ?>
