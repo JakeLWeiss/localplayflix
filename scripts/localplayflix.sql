@@ -98,4 +98,8 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
+<<<<<<< Updated upstream:localplayflix.sql
 -- Dump completed on 2018-01-12 21:47:20
+=======
+-- Dump completed on 2018-01-22 22:23:47
+>>>>>>> Stashed changes:scripts/localplayflix.sql
