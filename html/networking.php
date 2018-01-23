@@ -240,6 +240,7 @@ class User{
 	}
 
 }
+/*
 $conn = new databaseConnection;
 $conn->connect();
 //echo phpinfo() . PHP_EOL;
@@ -249,7 +250,7 @@ $stmt1 = $conn->pdo->query("Select * from movies limit 0,5");
 //var_dump($stmt1);
 while($row = $stmt1->fetch()){
 	print_r($row);
-}
+}*/
 //generate a ton of random data to populate database
 // for($i = 0; $i < 1000; $i++){
 // 	$conn->insert(array("name", "description", "location"), array(bin2hex(random_bytes(50)), bin2hex(random_bytes(100)), 	bin2hex(random_bytes(100))), "movies");
