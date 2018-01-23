@@ -26,9 +26,7 @@ namespace lpflix {
         DispatcherTimer hide = new DispatcherTimer(); //time to hide the controll bar (global in order to be used in action listener)
         
         public player() {
-            InitializeComponent();
-
-            //phpShit();
+            InitializeComponent();         
 
             loadMedia();//loads media to play
 
@@ -54,7 +52,8 @@ namespace lpflix {
             request.Method = "POST";
 
             //data to encode.
-            string postData = "a={\"name\":\"Mirai Nikki Episode 2\",\"description\":\"Episode 2 of the Future Diary (Dubbed)\",\"id\":\"http://localhost/mnikki2.mp4\",\"thumbnail\":\"http://localhost/mnikkithumb.png\",\"resumetime\":357}&b={\"name\":\"Stock mp4 test\",\"description\":\"Stock mp4 test\",\"id\":\"http://localhost/test.mp4\",\"thumbnail\":\"http://localhost/default.png\",\"resumetime\":59}&c={\"name\":\"Howl's Moving Castle\",\"description\":\"Studio Ghibli's Howl's moving Castle (Dubbed)\",\"id\":\"http://localhost/howlsmovingcastle.mp4\",\"thumbnail\":\"http://localhost/howlsmovingcastlethumb.png\",\"resumetime\":5146}";
+
+            string postData = "Data="+JsonConvert.SerializeObject(m);
             byte[] byteArray = Encoding.UTF8.GetBytes(postData);
 
             //this is up to you as to how you want to encode this. there are a ton of encoding methods. 
@@ -90,6 +89,7 @@ namespace lpflix {
             m.resumetime = mePlayer.Position;
             writeFile(@"/html/metadata.json", m);
             updateList();
+            phpShit();
         }
 
         private void writeFile(string path, object t) { // writes to the document server root

@@ -4,6 +4,6 @@
              xmlns:local="clr-namespace:lpflix"
              StartupUri="menu.xaml">
     <Application.Resources>
-         
+        
     </Application.Resources>
 </Application>

@@ -7,12 +7,18 @@
         Title="lpflix - play your local mp4s with tracking"
         xmlns:local="clr-namespace:Binding"
         Height="350" Width="525">
+
+
     <Window.Resources>
         <local:Movies x:Key="MovieList"/>
     </Window.Resources>
+    <Window.BorderBrush>
+        <ImageBrush/>
+    </Window.BorderBrush>
+
     <Grid>
 
-        <Grid>
+        <Grid Background="Black">
 
             <Grid.RowDefinitions>
                 <RowDefinition Height="161*" />
@@ -20,7 +26,9 @@
                 <RowDefinition Height="0" />
             </Grid.RowDefinitions>
 
-            <DataGrid ItemsSource="{StaticResource MovieList}" 
+            <DataGrid ItemsSource="{StaticResource MovieList}"  
+                      BorderThickness="3"
+                      GridLinesVisibility="None"
                       x:Name="dg"  
                       Grid.RowSpan="3" 
                       SelectionMode="Single"
@@ -28,21 +36,24 @@
                       IsReadOnly="True"                      
                       AutoGenerateColumns="False"
                       KeyDown="dg_KeyDown"
-                      Margin="0,0,0,-0.2" 
-                      SelectedIndex="0">
+                      Margin="-6,-7,1,-0.2" 
+                      SelectedIndex="0" BorderBrush="{x:Null}" Foreground="White"  >
                 <DataGrid.Background>
-                    <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
-                        <GradientStop Color="Black" Offset="0"/>
-                        <GradientStop Color="White" Offset="1"/>
+                    <LinearGradientBrush EndPoint="0.5,1" MappingMode="RelativeToBoundingBox" StartPoint="0.5,0">
+                        <GradientStop Color="Black" Offset="1"/>
+                        <GradientStop Color="DarkGray"/>
                     </LinearGradientBrush>
                 </DataGrid.Background>
+
 
                 <DataGrid.Columns>
 
                     <DataGridTemplateColumn Width=".2*">
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate>
-                                <Image Stretch="Fill" Source="{Binding thumbnail}" />
+                                <StackPanel Background="Black">
+                                    <Image Stretch="Fill" Source="{Binding thumbnail}" />
+                                </StackPanel>
                             </DataTemplate>
                         </DataGridTemplateColumn.CellTemplate>
                     </DataGridTemplateColumn>
@@ -51,12 +62,12 @@
                     <DataGridTemplateColumn Width=".75*">
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate>
-                                <StackPanel>
-                                    <TextBlock Text="{Binding name}" FontFamily="Impact" TextAlignment="Center" FontSize="16"/>
-                                    <TextBlock Text="{Binding description}"/>
-                                    <Grid>
-                                        <TextBlock Text="Resume time: " Margin="0,0,-0.2,0"/>
-                                        <TextBlock Text="{Binding resumetime}" Margin="75,1,-4.2,0"/>
+                                <StackPanel Background="Black">
+                                    <TextBlock Text="{Binding name}" FontFamily="Impact"  TextAlignment="Center" FontSize="16" Foreground="#FFF7EFEF"/>
+                                    <TextBlock Text="{Binding description}" Background="Black" Foreground="#FFF7EFEF"/>
+                                    <Grid Background="Black">
+                                        <TextBlock Text="Resume time: " Margin="0,0,-0.2,0" Foreground="#FFF7EFEF"/>
+                                        <TextBlock Text="{Binding resumetime}" Margin="75,1,-4.2,0" Foreground="#FFF7EFEF"/>
                                     </Grid>
                                 </StackPanel>
                             </DataTemplate>
@@ -66,13 +77,15 @@
                     <DataGridTemplateColumn Width=".1*">
                         <DataGridTemplateColumn.CellTemplate >
                             <DataTemplate>
-                                <Button x:Name="play" Background="Transparent" 
+                                <StackPanel Background="Black">
+                                    <Button x:Name="play" Background="Transparent" 
                                             Click="play_Click" BorderThickness="0" 
                                             Height="Auto" Width="Auto" 
-                                            VerticalAlignment="Bottom" HorizontalAlignment="Right" 
-                                            Margin="0,0,2,2">
-                                    <Image Stretch="Fill" Source="/Resources/play.png" />
-                                </Button>
+                                            VerticalAlignment="Center" HorizontalAlignment="Right" 
+                                            Margin="2,2,2,2">
+                                        <Image  Stretch="Fill" Source="/Resources/playAlt.png" />
+                                    </Button>
+                                </StackPanel>
                             </DataTemplate>
                         </DataGridTemplateColumn.CellTemplate>
 

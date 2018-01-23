@@ -43,6 +43,8 @@ namespace lpflix {
             player p = new player(); 
             p.Show();
         }
+
+       
     }
 
 
