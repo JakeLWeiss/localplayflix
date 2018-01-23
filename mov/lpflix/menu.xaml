@@ -54,6 +54,10 @@
                                 <StackPanel>
                                     <TextBlock Text="{Binding name}" FontFamily="Impact" TextAlignment="Center" FontSize="16"/>
                                     <TextBlock Text="{Binding description}"/>
+                                    <Grid>
+                                        <TextBlock Text="Resume time: " Margin="0,0,-0.2,0"/>
+                                        <TextBlock Text="{Binding resumetime}" Margin="75,1,-4.2,0"/>
+                                    </Grid>
                                 </StackPanel>
                             </DataTemplate>
                         </DataGridTemplateColumn.CellTemplate>

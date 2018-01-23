@@ -26,7 +26,7 @@ namespace lpflix {
             get;
             set;
         }
-        public int resumetime {
+        public TimeSpan resumetime {
             get;
             set;
         }
@@ -49,7 +49,7 @@ namespace Binding {
                                     name = (string)j.GetValue("name"),
                                     description = (string)j.GetValue("description"),
                                     thumbnail = (string)j.GetValue("thumbnail"),
-                                    resumetime = (int)j.GetValue("resumetime")
+                                    resumetime = (TimeSpan)j.GetValue("resumetime")
                                 });
                             }
                         }

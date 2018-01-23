@@ -5,6 +5,7 @@ using Newtonsoft.Json.Linq;
 using System;
 using System.IO;
 using System.Net;
+using System.Text;
 using System.Windows;
 using System.Windows.Controls.Primitives;
 using System.Windows.Input;
@@ -27,6 +28,8 @@ namespace lpflix {
         public player() {
             InitializeComponent();
 
+            //phpShit();
+
             loadMedia();//loads media to play
 
             DispatcherTimer timer = new DispatcherTimer(); //dispatch timer in order to update the scrubbing
@@ -44,6 +47,38 @@ namespace lpflix {
             udjson.Start();
         }
         
+        private void phpShit() {
+
+
+            WebRequest request = WebRequest.Create("http://localhost/response.php");
+            request.Method = "POST";
+
+            //data to encode.
+            string postData = "a={\"name\":\"Mirai Nikki Episode 2\",\"description\":\"Episode 2 of the Future Diary (Dubbed)\",\"id\":\"http://localhost/mnikki2.mp4\",\"thumbnail\":\"http://localhost/mnikkithumb.png\",\"resumetime\":357}&b={\"name\":\"Stock mp4 test\",\"description\":\"Stock mp4 test\",\"id\":\"http://localhost/test.mp4\",\"thumbnail\":\"http://localhost/default.png\",\"resumetime\":59}&c={\"name\":\"Howl's Moving Castle\",\"description\":\"Studio Ghibli's Howl's moving Castle (Dubbed)\",\"id\":\"http://localhost/howlsmovingcastle.mp4\",\"thumbnail\":\"http://localhost/howlsmovingcastlethumb.png\",\"resumetime\":5146}";
+            byte[] byteArray = Encoding.UTF8.GetBytes(postData);
+
+            //this is up to you as to how you want to encode this. there are a ton of encoding methods. 
+            request.ContentType = "application/x-www-form-urlencoded";
+            request.ContentLength = byteArray.Length;
+            Stream dataStream = request.GetRequestStream();
+            dataStream.Write(byteArray, 0, byteArray.Length);
+            dataStream.Close();
+            WebResponse response = request.GetResponse();
+            Console.WriteLine(((HttpWebResponse)response).StatusDescription);
+            dataStream = response.GetResponseStream();
+            StreamReader reader = new StreamReader(dataStream);
+            // Read the content.  
+            string responseFromServer = reader.ReadToEnd();
+            // Display the content.  
+            Console.WriteLine(responseFromServer);
+            // Clean up the streams.  
+            reader.Close();
+            dataStream.Close();
+            response.Close();
+
+            Console.ReadLine();
+        }
+
         private void updateList() { //updates the full metadata for server
             movies.RemoveAll(movie => movie.name.Equals(m.name));
             movies.Add(m);
@@ -52,7 +87,7 @@ namespace lpflix {
         }
 
         private void Udjson_Tick(object sender, EventArgs e) { // sets the resume time of the video
-            m.resumetime = (int)mePlayer.Position.TotalSeconds;
+            m.resumetime = mePlayer.Position;
             writeFile(@"/html/metadata.json", m);
             updateList();
         }
@@ -74,7 +109,7 @@ namespace lpflix {
             JObject o = JObject.Parse(json); //read in and parse json
 
             m.id = new Uri(((string)j.GetValue("id"))); //set parameters to watch the movie with
-            m.resumetime = (int)j.GetValue("resumetime");
+            m.resumetime = (TimeSpan)j.GetValue("resumetime");
             m.thumbnail = ((string)j.GetValue("thumbnail"));
             m.description = ((string)j.GetValue("description"));
             m.name = ((string)j.GetValue("name"));
@@ -86,7 +121,7 @@ namespace lpflix {
             parseJSON();    //collects metadata
             if (m.id != null) { //makes sure fail isnt a crash
                 mePlayer.Source = m.id;
-                mePlayer.Position = TimeSpan.FromSeconds(m.resumetime); //gives off stopped time
+                mePlayer.Position = TimeSpan.FromSeconds((int)m.resumetime.TotalSeconds); //gives off stopped time
             }
             mePlayer.Play();//auto play the video
         }
