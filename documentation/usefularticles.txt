@@ -1,0 +1,1 @@
+https://phpdelusions.net/pdo - a good tutorial of how PDOs (the way we're handling php-mysql requests) work

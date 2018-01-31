@@ -11,7 +11,7 @@ namespace Examples.System.Net
         {
             //add request
             //WebRequest request = WebRequest.Create("http://192.168.207.130/sampleadd.php");
-            WebRequest request = WebRequest.Create("http://192.168.207.130/sampleselect.php");
+            WebRequest request = WebRequest.Create("https://140.254.10.13/sampleselect.php");
             request.Method = "POST";
 
             //add json

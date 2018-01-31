@@ -48,11 +48,15 @@ class databaseConnection{
 		}
 	}
 	
-	//at the moment there doesn't seem to be a decent way of generalizing this. insert is pretty formulaic, these, not so much
+	//takes a PDO query and executes it with the arguments; returns an object of all the data returned.
 	function select($query, array $executeArguments){
 		$stmt = $this->pdo->prepare($query);
 		$stmt->execute($executeArguments);
-		return $stmt;
+		$result = [];
+		while($row = $stmt->fetch()){
+			$result[] = $row;
+		}
+		return $result;
 	}
 	
 	//TODO make this actually work with the current setup. currently just a straight import from old stuff.
@@ -120,12 +124,13 @@ class databaseConnection{
 	
 }
 
-class Post{
+class Media{
 	public $dbc;
 	public $title;
-	public $content;
-	private $author;
-	private $authorid;
+	public $contentLocation;
+	public $description;
+	private $owner;
+	private $ownerid;
 	public $metakey;
 	public $metadata;
 	
@@ -209,6 +214,16 @@ class Meta{
 
 }
 
+class UserManagement{
+	public $dbc;
+	
+	function createUser(){
+	}
+	
+	function deleteUser(){
+	}	
+}
+
 class User{
 	//TODO UNSECURE AS HELL DO NOT LAUNCH TODO TODO TODO
 	public $dbc;
@@ -240,6 +255,20 @@ class User{
 	}
 
 }
+/*
+$conn = new databaseConnection;
+$conn->connect();
+
+//$data = $conn->select("Select user, host from mysql.user", array());
+
+$data = $conn->select("Select user, host from mysql.user where user = ?", array("dustin"));
+//print_r($data);
+foreach($data as $entry){
+	print_r($entry);
+	echo '<br>';
+}
+//var_dump($data->fetch());
+
 /*
 $conn = new databaseConnection;
 $conn->connect();
