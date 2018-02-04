@@ -18,7 +18,7 @@ namespace lpflix {
             get;
             set;
         }
-        public Uri id {
+        public string id {
             get;
             set;
         }
@@ -39,13 +39,13 @@ namespace Binding {
 
             try {
                 using (System.Net.Http.HttpClient client = new System.Net.Http.HttpClient()) {
-                    using (System.Net.Http.HttpResponseMessage response = client.GetAsync("http://localhost/metadatafull.json").Result) {
+                    using (System.Net.Http.HttpResponseMessage response = client.GetAsync("http://65.24.246.246/json/metadatafull.json").Result) {
                         using (HttpContent content = response.Content) {
                             var json = content.ReadAsStringAsync().Result;
                             List<JObject> jobs = JsonConvert.DeserializeObject<List<JObject>>(json);
                             foreach (JObject j in jobs) {
                                 this.Add(new Movie {
-                                    id = new Uri((string)j.GetValue("id")), //set parameters to watch the movie with
+                                    id = ((string)j.GetValue("id")), //set parameters to watch the movie with
                                     name = (string)j.GetValue("name"),
                                     description = (string)j.GetValue("description"),
                                     thumbnail = (string)j.GetValue("thumbnail"),
