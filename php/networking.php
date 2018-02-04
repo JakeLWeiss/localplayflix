@@ -36,8 +36,9 @@ class databaseConnection{
 		}
 		//echo $qs . PHP_EOL;
 		$query = "INSERT INTO $table ($names) values ($qs)";
-		//echo $query . PHP_EOL;
+		echo $query . PHP_EOL;
 		$stmt = $this->pdo->prepare($query);
+		print_r($stmt);
 		$stmt->execute($values);
 	}
 	
@@ -109,10 +110,12 @@ class databaseConnection{
 	
 	}
 	
+	//gets the current maxid in meta (this could be done with autoincrement, but i dont want to trust that at the moment)
 	function getCurrentMetaID(){
 		return $this->pdo->query("SELECT MAX(metaid) as 'maxmetaid' FROM meta")->fetch()["maxmetaid"];
 	}
 	
+	//gets the maximum property from a certain table; also works in lexicographic order
 	function getCurrentMax($table, $property){
 		return $this->pdo->query("SELECT MAX($property) as 'max' FROM $table")->fetch()["max"];
 	}
@@ -140,6 +143,9 @@ class Media{
 		$this->content = $content;
 		$this->dbc = $dbc;
 	}
+	
+	
+	
 	
 	function createPost(){
 		if($_SESSION["admin"] === 1){
@@ -174,7 +180,7 @@ class Meta{
 	public $entries;
 	public $metaID;
 	public $type;
-	public $typeKey;
+	public $typeID;
 	//TODO restructure 
 	
 	function __construct(&$dbc, $metaID, $type, $typeID){
@@ -182,23 +188,26 @@ class Meta{
 		$this->metaID = $metaID;
 		$this->entries = array();
 		$this->type = $type;
-		$this->typeKey = $typeID;
+		
+		$this->metaID = $dbc->getCurrentMax("meta", "metaid") + 1;
+		$this->typeID = $typeID;
 	}
 	
 	//adds the extra stuff for the multiple meta instert. modular and all
 	function addMeta($k, $v){
-		$this->entries[] = [$this->metaID, $k, $v, $this->type, $this->typeID];
+		$this->entries[] = [$k, $v];
 	}
 	
 	function createMeta($k, $v){
-		$this->dbc->insert(array("metaid", "metakey", "metavalue", "$this->type", "$this->typeID"), array($this->metaID, $k, $v, $this->typeKey, $this->typeID), "meta");
+		$this->dbc->insert(array("metaid", "metakey", "metavalue", $this->type."id"), array($this->metaID, $k, $v,  $this->typeID), "meta");
 	}
 	
 	function createMultipleMeta($entries){
 		foreach($entries as $entry){
-			$this->createMeta($entry[0], $entry[1]);
+			$this->createMeta(...$entry);
+			$this->metaID++;
 		}
-		$this->dbc->insertMultiple(array( "metaid", "metakey", "metavalue", "$this->type", "$this->typeID"), array($this->entries), "meta");
+		//$this->dbc->insertMultiple(array( "metaid", "metakey", "metavalue", "$this->type", "$this->typeID"), array($this->entries), "meta");
 	}
 	
 	function updateMeta(){

@@ -1,16 +1,49 @@
 <html>
   <head>
     <title>LocalPlayFlix b/c localflix was taken</title>
+   
     <meta content="">
     <style>
     *{
 	font-family: Courier;
 	color: white;
     }
-    
     </style>
+    <script
+			  src="http://code.jquery.com/jquery-3.3.1.min.js"
+			  integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+			  crossorigin="anonymous"></script>
+    <script>
+		//$.ajax({url: "php/testing.php", success: function(result){console.log(JSON.parse(result))}});
+		/*
+		$.post("php/testing.php", { name: "dustin"})
+			.done(function( data ) {
+				console.log(JSON.parse(data));
+		});*/
+		$(document).ready(function(){
+			var vid = $('#vid');
+			console.log($('#vid'));
+			vid.ready(function(){
+				setInterval(update, 1000)
+			});
+		});
+		
+		
+		function update(){
+			if(!vid.paused){
+				$.post("php/updatetime.php", { time: vid.currentTime})
+				.done(function( data ) {
+					console.log(JSON.parse(data));
+				});
+			}
+			
+		}
+		
+    </script>
   </head>
 	<body bgcolor="#000">
+	
+   
 <pre>                                               
 
 
@@ -78,8 +111,8 @@ General tree:
                                     
 Server root ___________________________________
               \    \     \      \      \       \
-               \    \     \      \	\       \
-		\    \     \      \	 \       \ 
+               \    \     \      \	    \       \
+	        	\    \     \      \	     \       \ 
                  php  text  image  json   media   Hillary Clintons Emails
 
 
@@ -93,5 +126,13 @@ Server root ___________________________________
 © The Students Unionized Democratic Republic (and Kingdom) of ASC 
 
 </pre>
-	</body>
+
+<video id='vid' width="1280" height="720" controls >
+	<source src="media/howlsmovingcastle.mp4" type="video/mp4">
+	fuck you 
+</video>
+
+
+</body>
+
 </html>
