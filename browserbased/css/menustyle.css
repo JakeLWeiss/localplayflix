@@ -1,0 +1,75 @@
+ 
+body {
+	background-color: black;
+	
+}
+
+* {margin: 0; padding: 0;}
+ 
+div {
+  margin: 20px;
+}
+ 
+ul {
+  list-style-type: none;
+  width: 500px;
+}
+ 
+h3 {
+  font: bold 20px/1.5 Helvetica, Verdana, sans-serif;
+  color: grey;
+}
+ 
+li img {
+  float: left;
+  margin: 0 15px 0 0;
+  height: 100px;
+  width: 200px;
+}
+ 
+li p {
+  font: 200 12px/1.5 Georgia, Times New Roman, serif;
+  color: grey;
+}
+ 
+li {
+  padding: 10px;
+  overflow: auto;
+}
+ 
+li:hover {
+  background: lightgrey;
+  cursor: pointer;
+}
+
+a{
+	color: lightgrey;
+}
+a:link    {
+  /* Applies to all unvisited links */
+  text-decoration:  none;
+  font-weight:      bold;
+  background-color: #ddd;
+  
+  } 
+a:visited {
+  /* Applies to all visited links */
+  text-decoration:  none;
+  font-weight:      bold;
+  background-color: #ddd;
+  
+  } 
+a:hover   {
+  /* Applies to links under the pointer */
+  text-decoration:  underline;
+  font-weight:      bold;
+  background-color: blue;
+  
+  } 
+a:active  {
+  /* Applies to activated links */
+  text-decoration:  underline;
+  font-weight:      bold;
+  background-color: black;
+
+  } 
