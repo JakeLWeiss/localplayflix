@@ -6,11 +6,11 @@ $conn->connect();
 //$data = $conn->select("Select user, host from mysql.user", array());
 
 //$data = $conn->select("Select * from mysql.user where user = ?", array("dustin"));
-$data = $conn->select("Select * from mysql.user where user = ?", array($_POST['name']));
+//$data = $conn->select("Select * from mysql.user where user = ?", array($_POST['name']));
 
+//$conn->insert(array('name', 'description', 'location', 'filename', 'movieid'), array('Stock mp4 test', 'Stock mp4 test', '/media', 'test.mp4', 2),'movies');
+//$conn->insert(array('name', 'description', 'location', 'filename', 'movieid'), array('Howl\'s Moving Castle', "Studio Ghibli's Howl's moving Castle (Dubbed)", '/media', 'howlsmovingcastle.mp4', 3),'movies');
 
-
-echo json_encode($data);
 
 /*
 foreach($data as $entry){

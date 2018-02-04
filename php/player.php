@@ -1,3 +1,12 @@
+<?php
+
+include 'networking.php';
+$conn = new databaseConnection;
+$conn->connect();
+
+$data = $conn->select("Select * from movies where filename = ?", array($_GET['add']))[0];
+//var_dump($data);
+?>
 <html>
   <head>
     <title>LocalPlayFlix b/c localflix was taken</title>
@@ -11,7 +20,6 @@
     
     #vid{
 		position: absolute;
-		z-index: -1;
 		top: 0;
 		left: 0;
 		width: 100%; 
@@ -27,9 +35,9 @@
     <script>
 		$(document).ready(function(){
 			var vid = $('#vid');
-			console.log($('#vid'));
 			vid.ready(function(){
-				setInterval(update, 1000)
+				vid[0].currentTime = <?php echo $data['currenttime']; ?>; //don't ask me why the index is necessary. only needed in this function????
+				setInterval(update, 1000);
 			});
 		});
 		
@@ -48,8 +56,8 @@
   </head>
 	<body bgcolor="#000">
 
-		<video id='vid' controls>
-			<source src="" type="video/mp4">
+		<video id='vid' controls autoplay>
+			<source src="<?php echo $data['location'].'/'.$data['filename']?>" type="video/mp4">
 			fuck you 
 		</video>
 
