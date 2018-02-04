@@ -135,12 +135,10 @@ class Media{
 	public $metadata;
 	
 	//pass dbc by reference to save on performance
-	function __construct(&$dbc, $title, $content){
+	function __construct(&$dbc, $meta){
 		$this->title = $title;
 		$this->content = $content;
 		$this->dbc = $dbc;
-		$this->author = $_SESSION["username"];
-		$this->authorid = $_SESSION["userid"];
 	}
 	
 	function createPost(){
