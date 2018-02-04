@@ -48,7 +48,7 @@ namespace lpflix {
         private void phpShit() {
 
 
-            WebRequest request = WebRequest.Create("http://localhost/response.php");
+            WebRequest request = WebRequest.Create("http://65.24.246.246/php/response.php");
             request.Method = "POST";
 
             //data to encode.
@@ -102,14 +102,14 @@ namespace lpflix {
         private Movie parseJSON() { //parses the metadata json from apache server
 
             WebClient client = new WebClient();
-            Stream stream = client.OpenRead("http://localhost/metadata.json");
+            Stream stream = client.OpenRead("http://65.24.246.246/json/metadata.json");
             StreamReader reader = new StreamReader(stream);
             string json = reader.ReadToEnd();
             JObject j = (JObject)JsonConvert.DeserializeObject(json);
             JObject o = JObject.Parse(json); //read in and parse json
 
-            m.id = new Uri(((string)j.GetValue("id"))); //set parameters to watch the movie with
-            m.resumetime = (TimeSpan)j.GetValue("resumetime");
+            m.id = "http://65.24.246.246/php/player.php?add="+ ((string)j.GetValue("id")); //set parameters to watch the movie with
+            //m.resumetime = (TimeSpan)j.GetValue("resumetime");
             m.thumbnail = ((string)j.GetValue("thumbnail"));
             m.description = ((string)j.GetValue("description"));
             m.name = ((string)j.GetValue("name"));
@@ -120,7 +120,7 @@ namespace lpflix {
         private void loadMedia() {
             parseJSON();    //collects metadata
             if (m.id != null) { //makes sure fail isnt a crash
-                mePlayer.Source = m.id;
+                mePlayer.Source = new Uri(m.id);
                 mePlayer.Position = TimeSpan.FromSeconds((int)m.resumetime.TotalSeconds); //gives off stopped time
             }
             mePlayer.Play();//auto play the video
