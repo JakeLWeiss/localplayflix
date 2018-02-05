@@ -44,7 +44,7 @@ $data = $conn->select("Select * from movies where filename = ?", array($_GET['ad
 		
 		function update(){
 			if(!vid.paused){
-				$.post("updatetime.php", { time: vid.currentTime})
+				$.post("updatetime.php", { time: vid.currentTime, filename :"<?php echo $_GET['add'];?>"})
 				.done(function( data ) {
 					console.log(JSON.parse(data));
 				});
