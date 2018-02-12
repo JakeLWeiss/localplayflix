@@ -1,4 +1,4 @@
-<?php
+<?php 
 include 'php/networking.php';
 $conn = new databaseConnection;
 $conn->connect();
@@ -21,19 +21,43 @@ $conn->connect();
 <pre>
 <?php
 
+print "<input type=\"text\" id=\"search\" onkeyup=\"myFunction()\" placeholder=\"Search for media item...\" title=\"search for media\">";
+
+print "<script>\n";
+print "function myFunction() {\n";
+print "    var input, filter, ul, li, a, i;\n";
+print "    input = document.getElementById(\"search\");\n";
+print "    filter = input.value.toUpperCase();\n";
+print "    ul = document.getElementById(\"MovieList\");\n";
+print "    li = ul.getElementsByTagName(\"li\");\n";
+print "    for (i = 0; i < li.length; i++) {\n";
+print "        a = li[i].getElementsByTagName(\"a\")[0];\n";
+print "        if (a.innerHTML.toUpperCase().indexOf(filter) > -1) {\n";
+print "            li[i].style.display = \"\";\n";
+print "        } else {\n";
+print "            li[i].style.display = \"none\";\n";
+print "\n";
+print "        }\n";
+print "    }\n";
+print "}\n";
+print "</script>";
+
+
+echo '<ul id="MovieList">';
 $data = $conn->select("SELECT * from movies limit ?,?", array(0, 10));
 foreach($data as $entry){
 		print('<li>'.PHP_EOL);
 			print("<a href='" . "php/player.php?add=".$entry["filename"]. "'>");
-			echo '<img src="">';
+			print("<img src='/image/".$entry["thumbnail"]."'> ");
 			echo '<h3>' . $entry['name'] . '</h3>';
-			echo '<p>' . $entry['description'].'</p></a>';
+ 			echo '<p>' . $entry['description'].'</p></a>';
 		echo '</li>';
 	//print_r($entry);
 }
+echo '</ul>'
 ?>
 </pre>
-
+<!--
 	<ul class="medialist"></ul>
 	<script type='text/javascript'>
 	
@@ -72,7 +96,7 @@ foreach($data as $entry){
 		}
 	});
 
-	</script>
+	</script>-->
 </div>
 </body>
 </html>

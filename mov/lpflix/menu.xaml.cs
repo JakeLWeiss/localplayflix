@@ -35,6 +35,7 @@ namespace lpflix {
 
         private void play_Click(object sender, RoutedEventArgs e) { //make use of the play button
             m = (Movie)dg.SelectedItem; //select and play the movie
+
             loadScreen();
         }
 

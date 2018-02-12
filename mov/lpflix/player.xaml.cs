@@ -89,7 +89,7 @@ namespace lpflix {
             m.resumetime = mePlayer.Position;
             writeFile(@"/html/metadata.json", m);
             updateList();
-            phpShit();
+           // phpShit();
         }
 
         private void writeFile(string path, object t) { // writes to the document server root
@@ -107,9 +107,9 @@ namespace lpflix {
             string json = reader.ReadToEnd();
             JObject j = (JObject)JsonConvert.DeserializeObject(json);
             JObject o = JObject.Parse(json); //read in and parse json
-
-            m.id = "http://65.24.246.246/php/player.php?add="+ ((string)j.GetValue("id")); //set parameters to watch the movie with
-            //m.resumetime = (TimeSpan)j.GetValue("resumetime");
+            Console.WriteLine(o + "\n\n");
+            m.id = ((string)j.GetValue("id")); //set parameters to watch the movie with
+            m.resumetime = (TimeSpan)j.GetValue("resumetime");
             m.thumbnail = ((string)j.GetValue("thumbnail"));
             m.description = ((string)j.GetValue("description"));
             m.name = ((string)j.GetValue("name"));
@@ -120,7 +120,7 @@ namespace lpflix {
         private void loadMedia() {
             parseJSON();    //collects metadata
             if (m.id != null) { //makes sure fail isnt a crash
-                mePlayer.Source = new Uri(m.id);
+                mePlayer.Source = new Uri("http://65.24.246.246/media/"+m.id);
                 mePlayer.Position = TimeSpan.FromSeconds((int)m.resumetime.TotalSeconds); //gives off stopped time
             }
             mePlayer.Play();//auto play the video

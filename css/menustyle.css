@@ -42,34 +42,49 @@ li:hover {
   cursor: pointer;
 }
 
-a{
-	color: lightgrey;
-}
+
 a:link    {
   /* Applies to all unvisited links */
   text-decoration:  none;
   font-weight:      bold;
-  background-color: #ddd;
+  background-color: #lightgrey;
   
   } 
 a:visited {
   /* Applies to all visited links */
   text-decoration:  none;
   font-weight:      bold;
-  background-color: #ddd;
+  background: black;
   
   } 
 a:hover   {
   /* Applies to links under the pointer */
-  text-decoration:  underline;
+  text-decoration:  none;
   font-weight:      bold;
-  background-color: blue;
+  background: lightgrey;
   
   } 
 a:active  {
   /* Applies to activated links */
-  text-decoration:  underline;
+  text-decoration:  none;
   font-weight:      bold;
-  background-color: black;
+  background-color: #ddd;
 
   } 
+
+
+
+#search {
+  background-image: url('/image/searchicon.png');
+  background-position: 10px 12px;
+  background-repeat: no-repeat;
+  width: 20%;
+  border-radius: 10px;
+  font-size: 16px;
+  padding: 12px 20px 12px 40px;
+  border: 1px solid #ddd;
+  margin-bottom: 12px;
+}
+
+
+
